@@ -11,7 +11,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
-	<body class="homepage is-preload">
+	<body class="right-sidebar is-preload">
 		<div id="page-wrapper">
 
 			<!-- Header -->
@@ -52,71 +52,6 @@
 					</div>
 				</section>
 
-			<!-- Features -->
-				<section id="features">
-					<div class="container">
-						<header>
-							<h2>Gentlemen, behold! This is <strong>GD_DAREDEVIL</strong>!</h2>
-						</header>
-						<div class="row aln-center">
-							<div class="col-4 col-6-medium col-12-small">
-
-								<!-- Feature -->
-									<section>
-										<a href="#" class="image featured"><img src="images/pic01.jpg" alt="" /></a>
-										<header>
-											<h3>CTF Writeups</h3>
-										</header>
-										<p>This is <strong>Strongly Typed</strong>, a free, fully responsive site template
-										by <a href="http://html5up.net">HTML5 UP</a>. Free for personal and commercial use under the
-										<a href="http://html5up.net/license">CCA 3.0 license</a>.</p>
-									</section>
-
-							</div>
-							<div class="col-4 col-6-medium col-12-small">
-
-								<!-- Feature -->
-									<section>
-										<a href="CTFindex.html" class="image featured"><img src="images/pic02.jpg" alt="" /></a>
-										<header>
-											<h3>Online Challenges</h3>
-										</header>
-										<p><a href="http://html5up.net">HTML5 UP</a> is a side project of <a href="http://twitter.com/ajlkn">AJ’s</a> (= me).
-										I started it as a way to both test my responsive tools and sharpen up my coding
-										and design skills a bit.</p>
-									</section>
-
-							</div>
-							<div class="col-4 col-6-medium col-12-small">
-
-								<!-- Feature -->
-									<section>
-										<a href="#" class="image featured"><img src="images/pic03.jpg" alt="" /></a>
-										<header>
-											<h3>ELECTRONICS</h3>
-										</header>
-										<p><strong>Responsive Tools</strong> is a simple set of tools for building responsive
-										sites and apps. All of my templates at <a href="http://html5up.net">HTML5 UP</a> are built using these tools.</p>
-									</section>
-
-							</div>
-							<div class="col-12">
-								<ul class="actions">
-									<li><a href="#" class="button icon solid fa-file">Tell Me More</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</section>
-
-			<!-- Banner -->
-				<section id="banner">
-					<div class="container">
-						<p>Everyone can <strong>Program</strong>.<br />
-						All they need to know are the keystrokes in right order</p>
-					</div>
-				</section>
-
 			<!-- Main -->
 				<section id="main">
 					<div class="container">
@@ -128,56 +63,60 @@
 									<!-- Post -->
 										<article class="box post">
 											<header>
-												<h2><a href="#">I don’t want to say <strong>it’s the aliens</strong> ...<br />
-												but it’s the aliens.</a></h2>
+												<h2>Behold! This is the <strong>GD_DAREDEVIL</strong> layout<br />
+												with a sidebar on the right!</h2>
 											</header>
-											<a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a>
-											<h3>I mean isn't it possible?</h3>
+											<span class="blogimage"><img src="images/freestuff.webp" alt="" /></span>
+											<h3>How I ‘hacked’ Wi-Fi at Railway Station to get free internet?</h3>
+											<p>(This blog is intended for educational purposes. I don’t want to go crazy over the website and I’m not responsible for any damage inflicted through the knowledge obtained from here)</p>
+											<p>(Hacking: The process of making something/someone work in a way it is not supposed to, or to get it to divulge info or access a service that is generally not accessible)</p>
+											<p>Plot: I woke up in the waiting lounge of a railway station in Mumbai. I needed some internet and my Mobile Jio internet sucks there (Jio sucks in Mumbai, Ironic, isn’t it?). So, I tried connecting to the [Redacted] WiFi in the railway station and it requires some mobile number verification with an OTP validation. If the verification works out, you will be offered high speed & unlimited internet for half an hour, I suppose. But, I didn’t receive any SMS for verification (Don’t know whether the problem is with my mobile or the sim’s network or the service’s internal error). I tried multiple times but, didn’t receive any. It started scratching that part of my brain that tries to check if it could be hacked. (So Cliche!!).</p>
+											<p>I wanted to check how the OTP verification works and if there’s any way to bypass it. The end goal is to get some free high-speed internet. I started looking at the first part of webpage which was right at my disposal, the source code. It was a bit weird to see that none of the code or functionality is obscure or hidden, in any way.</p>
+											<p>One weirder thing about the webpage was that the single webpage consisted of all the code corresponding to various functionalities and JavaScript was used to show & hide relevant elements, as per the user’s requirement. So, most of the navigation and interaction stuff was happening on the client side.</p>
+											<p>I opened the registration page and entered my phone number for getting an OTP. It showed a form asking me to enter the OTP. I needed to analyze this functionality. So, I inspected the code behind the ‘Submit OTP’ button. It was calling a function called ‘verify OTP’ and all of the custom JS functions were defined in a file called ‘commonFlowController.js’ which was linked to the webpage from the local storage of the server.</p>
+											<span class="blogimage"><img src="images/verifyotp.webp" alt="" /></span>
+											<p>verifyOTP(): The function created an ‘objBean’ object which stored relevant details of the user like MAC address, IP address, phone number etc. After creating the object, it was stringified into JSON and was being sent in an AJAX POST request to the server. The response included whether the mentioned OTP is correct or not. So, the entire OTP validation is being done on server side. I lost most of the hope but before despair could take over, something else caught my eye.</p>
+											<span class="blogimage"><img src="images/object.webp" alt="" /></span>
+											<p>It was executing some functionality based on the response and the one prime area of interest here is the condition where the OTP verification succeeds. Once the OTP verification succeeds, verifyOTP() was executing a few more functions to generate user profile, get free internet coupon and all that stuff. Look at the pics attached below for clearer understanding.</p>
+											<p>So, I tried to analyse those functions in hopes of finding a bug. All those functions were similar to verifyOTP function. They were modifying the existing ‘objBean’ object and sending AJAX POST requests to the server.</p>
+											<span class="blogimage"><img src="images/applyfreecoupon.png" alt="" /></span>
+											<p>But, Here’s the catch! No measures were taken to make sure that these functions are connected or executed sequentially, in any manner. Means, I can execute the functions responsible for getting free internet coupons without having to go through OTP verification. (I can’t directly execute these functions from chrome devtools but, all I need to do is understand what changes are being made to the ‘objBean’ object by the function and the URL to which the request is being made to). I can create a custom request to the specific URL with the custom object in JSON format.</p>
+											<span class="blogimage"><img src="images/freedatarequest.webp" alt="" /></span>
+											<p>I tried doing that using Burp repeater and Voila! I got the internet without having to enter any OTP.</p>
+											<h3>Accumsan lorem ipsum veroeros</h3>
+											<p>Consequat Phasellus laoreet massa id in, tristique at erat lorem
+											ipsum dolor sit amet lorem ipsum sed consequat magna tempus veroeros
+											consequat magna tempus lorem ipsum consequat Phasellus laoreet massa id
+											justo mattis pharetra. Fusce suscipit ligula vel quam viverra sit amet
+											mollis tortor congue. Sed quis mauris sit amet magna.</p>
 											<p>Phasellus laoreet massa id justo mattis pharetra. Fusce suscipit
 											ligula vel quam viverra sit amet mollis tortor congue. Sed quis mauris
 											sit amet magna accumsan tristique. Curabitur leo nibh, rutrum eu malesuada
+											in, tristique at erat lorem ipsum dolor sit amet lorem ipsum sed consequat
+											consequat magna tempus lorem ipsum consequat Phasellus laoreet massa id
 											in, tristique at erat lorem ipsum dolor sit amet lorem ipsum sed consequat
 											magna tempus veroeros lorem sed tempus aliquam lorem ipsum veroeros
 											consequat magna tempus lorem ipsum consequat Phasellus laoreet massa id
 											justo mattis pharetra. Fusce suscipit ligula vel quam viverra sit amet
 											mollis tortor congue. Sed quis mauris sit amet magna accumsan tristique.
-											Curabitur leo nibh, rutrum eu malesuada in tristique.</p>
-											<ul class="actions">
-												<li><a href="#" class="button icon solid fa-file">Continue Reading</a></li>
-											</ul>
+											Curabitur leo nibh, rutrum eu malesuada in tristique</p>
+											<h3>Ligula suspcipit fusce veroeros</h3>
+											<p>Nullam dolore etiam sed massa id in, tristique at erat lorem
+											ipsum dolor sit amet lorem ipsum sed consequat magna tempus veroeros
+											consequat magna tempus lorem ipsum consequat Phasellus laoreet massa id
+											justo mattis pharetra. Fusce suscipit ligula vel quam viverra sit amet
+											mollis tortor congue. Sed quis mauris sit amet magna.</p>
+											<p>Sed massa id justo mattis pharetra. Fusce suscipit
+											ligula vel quam viverra sit amet mollis tortor congue. Sed quis mauris
+											sit amet magna accumsan tristique. Curabitur leo nibh, rutrum eu malesuada
+											in, tristique at erat lorem ipsum dolor sit amet lorem ipsum sed consequat
+											consequat magna tempus lorem ipsum consequat Phasellus laoreet massa id
+											in, tristique at erat lorem ipsum dolor sit amet lorem ipsum sed consequat
+											magna tempus veroeros lorem sed tempus aliquam lorem ipsum veroeros
+											consequat magna tempus lorem ipsum consequat Phasellus laoreet massa id
+											justo mattis pharetra. Fusce suscipit ligula vel quam viverra sit amet
+											mollis tortor congue. Sed quis mauris sit amet magna accumsan.</p>
 										</article>
-
-									<!-- Post -->
-										<!-- <article class="box post">
-											<header>
-												<h2><a href="#">By the way, many thanks to <strong>regularjane</strong>
-												for these awesome demo photos</a></h2>
-											</header>
-											<a href="#" class="image featured"><img src="images/pic05.jpg" alt="" /></a>
-											<h3>You should probably check out her work</h3>
-											<p>Phasellus laoreet massa id justo mattis pharetra. Fusce suscipit
-											ligula vel quam viverra sit amet mollis tortor congue. Sed quis mauris
-											sit amet magna accumsan tristique. Curabitur leo nibh, rutrum eu malesuada
-											in, tristique at erat lorem ipsum dolor sit amet lorem ipsum sed consequat
-											consequat magna tempus lorem ipsum consequat Phasellus laoreet massa id
-											in, tristique at erat lorem ipsum dolor sit amet lorem ipsum sed consequat
-											magna tempus veroeros lorem sed tempus aliquam lorem ipsum veroeros
-											consequat magna tempus lorem ipsum consequat Phasellus laoreet massa id
-											justo mattis pharetra. Fusce suscipit ligula vel quam viverra sit amet
-											mollis tortor congue. Sed quis mauris sit amet magna accumsan tristique.
-											Curabitur leo nibh, rutrum malesuada.</p>
-											<p>Erat lorem ipsum veroeros consequat magna tempus lorem ipsum consequat
-											Phasellus laoreet massa id justo mattis pharetra. Fusce suscipit ligula
-											vel quam viverra sit amet mollis tortor congue. Sed quis mauris sit amet
-											magna accumsan tristique. Curabitur leo nibh, rutrum eu malesuada in,
-											tristique at erat. Curabitur leo nibh, rutrum eu malesuada in, tristique
-											at erat lorem ipsum dolor sit amet lorem ipsum sed consequat magna
-											tempus veroeros lorem sed tempus aliquam lorem ipsum veroeros consequat
-											magna tempus.</p>
-											<ul class="actions">
-												<li><a href="#" class="button icon solid fa-file">Continue Reading</a></li>
-											</ul>
-										</article> -->
 
 								</div>
 
@@ -237,10 +176,13 @@
 													<!-- Highlight -->
 														<article class="box highlight">
 															<header>
-																<h3><a href="#">Isn't it Amazing?</a></h3>
+																<h3><a href="#">Something of note</a></h3>
 															</header>
 															<a href="#" class="image left"><img src="images/pic06.jpg" alt="" /></a>
-															<p>Linux was Built by Linux Torvalds as a pet project as he didn't have enough money to afford for a commercial OS</p>
+															<p>Phasellus sed laoreet massa id justo mattis pharetra. Fusce suscipit ligula vel quam
+															viverra sit amet mollis tortor congue magna lorem ipsum dolor et quisque ut odio facilisis
+															convallis. Etiam non nunc vel est suscipit convallis non id orci. Ut interdum tempus
+															facilisis convallis. Etiam non nunc vel est suscipit convallis non id orci.</p>
 															<ul class="actions">
 																<li><a href="#" class="button icon solid fa-file">Learn More</a></li>
 															</ul>
@@ -250,7 +192,7 @@
 												<li>
 
 													<!-- Highlight -->
-														<!-- <article class="box highlight">
+														<article class="box highlight">
 															<header>
 																<h3><a href="#">Something of less note</a></h3>
 															</header>
@@ -262,7 +204,7 @@
 															<ul class="actions">
 																<li><a href="#" class="button icon solid fa-file">Learn More</a></li>
 															</ul>
-														</article> -->
+														</article>
 
 												</li>
 											</ul>
@@ -278,7 +220,7 @@
 				<section id="footer">
 					<div class="container">
 						<header>
-							<h2>Talk, Argue or Collaborate?<strong>Get in touch:</strong></h2>
+							<h2>Questions or comments? <strong>Get in touch:</strong></h2>
 						</header>
 						<div class="row">
 							<div class="col-6 col-12-medium">
@@ -303,36 +245,38 @@
 							</div>
 							<div class="col-6 col-12-medium">
 								<section>
-									<p>If you want to discuss anything, know about any particular thing in deep or Collaborate on a project, you can feel free to contact me!</p>
+									<p>Erat lorem ipsum veroeros consequat magna tempus lorem ipsum consequat Phaselamet
+									mollis tortor congue. Sed quis mauris sit amet magna accumsan tristique. Curabitur
+									leo nibh, rutrum eu malesuada.</p>
 									<div class="row">
 										<div class="col-6 col-12-small">
 											<ul class="icons">
-												<!-- <li class="icon solid fa-home">
+												<li class="icon solid fa-home">
 													1234 Somewhere Road<br />
 													Nashville, TN 00000<br />
 													USA
-												</li> -->
+												</li>
 												<li class="icon solid fa-phone">
-													+91 984-4803-2919
+													(000) 000-0000
 												</li>
 												<li class="icon solid fa-envelope">
-													<a href="#">gddaredevil777@gmail.com</a>
+													<a href="#">info@untitled.tld</a>
 												</li>
 											</ul>
 										</div>
 										<div class="col-6 col-12-small">
 											<ul class="icons">
 												<li class="icon brands fa-twitter">
-													<a href="#">@gd_daredevil</a>
+													<a href="#">@untitled</a>
 												</li>
 												<li class="icon brands fa-instagram">
-													<a href="#">instagram.com/gd_daredevil</a>
+													<a href="#">instagram.com/untitled</a>
 												</li>
-												<!-- <li class="icon brands fa-dribbble">
+												<li class="icon brands fa-dribbble">
 													<a href="#">dribbble.com/untitled</a>
-												</li> -->
+												</li>
 												<li class="icon brands fa-facebook-f">
-													<a href="#">facebook.com/gd_daredevil</a>
+													<a href="#">facebook.com/untitled</a>
 												</li>
 											</ul>
 										</div>
@@ -343,8 +287,7 @@
 					</div>
 					<div id="copyright" class="container">
 						<ul class="links">
-							<li>&copy; GD_Daredevil. All rights reserved.</li>
-						</ul>
+							<li>&copy; GD_Daredevil. All rights reserved.</li>						</ul>
 					</div>
 				</section>
 
